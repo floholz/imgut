@@ -1,0 +1,53 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - '[0-9][0-9].[0-9]*.[0-9]*' # CalVer
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.23
+
+      - name: Build Go project
+        run: go build -o imgut
+
+      - name: Archive binary
+        run: tar -czvf imgut.tar.gz ./imgut
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Automatically provided by GitHub Actions
+        with:
+          tag_name: ${{ github.ref }}  # This uses the tag that triggered the workflow
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Create Calver Release
+        uses: StephaneBour/actions-calver@v1.6
+        id: calver
+        with:
+          date_format: "%y.%-m.%-d"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./imgut.tar.gz
+          asset_name: imgut.tar.gz
+          asset_content_type: application/gzip
