@@ -1,19 +1,23 @@
 # NAME
 
-imgut - Image Go Downloader - Download images with URL patterns
+imgut - Image Utility Tool
 
 # SYNOPSIS
 
-imgut - Image Go Downloader
+imgut
 
 ```
 [--help|-h]
 ```
 
+# DESCRIPTION
+
+Perform url pattern shenanigans
+
 **Usage**:
 
 ```
-imgut - Image Go Downloader [GLOBAL OPTIONS] command [COMMAND OPTIONS] [ARGUMENTS...]
+imgut [command] [arguments]
 ```
 
 # GLOBAL OPTIONS
@@ -25,13 +29,13 @@ imgut - Image Go Downloader [GLOBAL OPTIONS] command [COMMAND OPTIONS] [ARGUMENT
 
 ## download, d
 
-Download images
+>imgut download [arguments]
 
-**--outDir, -o**="": output directory for downloaded images [default = out] (default: "out")
+**--outDir, -o**="": output directory for downloaded images (default: "out")
 
 ## fuzz, f
 
-Fuzz urls
+>imgut fuzz [arguments]
 
 **--outPath, -o**="": output path for fuzz file (default: "out/fuzz.json")
 

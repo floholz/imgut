@@ -11,8 +11,10 @@ var app *cli.App
 
 func main() {
 	app = &cli.App{
-		Name:  "imgut - Image Go Downloader",
-		Usage: "Download images with URL patterns",
+		Name:        "imgut",
+		Description: "Perform url pattern shenanigans",
+		Usage:       "Image Utility Tool",
+		UsageText:   "imgut [command] [arguments]",
 		Commands: []*cli.Command{
 			docCommand(),
 			downloadCommand(),
@@ -29,7 +31,7 @@ func downloadCommand() *cli.Command {
 	return &cli.Command{
 		Name:      "download",
 		Aliases:   []string{"d"},
-		Usage:     "Download images",
+		UsageText: "imgut download [arguments]",
 		Args:      true,
 		ArgsUsage: "Url pattern",
 		Flags: []cli.Flag{
@@ -37,7 +39,7 @@ func downloadCommand() *cli.Command {
 				Name:    "outDir",
 				Aliases: []string{"o"},
 				Value:   "out",
-				Usage:   "output directory for downloaded images [default = out]",
+				Usage:   "output directory for downloaded images",
 			},
 		},
 		Action: func(c *cli.Context) error {
@@ -52,7 +54,7 @@ func fuzzCommand() *cli.Command {
 	return &cli.Command{
 		Name:      "fuzz",
 		Aliases:   []string{"f"},
-		Usage:     "Fuzz urls",
+		UsageText: "imgut fuzz [arguments]",
 		Args:      true,
 		ArgsUsage: "Url pattern to fuzz",
 		Flags: []cli.Flag{
