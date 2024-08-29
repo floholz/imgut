@@ -2,6 +2,7 @@ package pattern
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 )
 
@@ -81,6 +82,9 @@ func resolveSinglePattern(pattern string) []string {
 			handleHyphen(pattern, &pChar, &bufferIdx, &resolveList)
 		case '?':
 			handleQuestionMark(pattern, &pChar, &bufferIdx, &resolveList)
+		case '.':
+			handleDot(pattern, &pChar, &bufferIdx, &resolveList)
+
 		}
 	}
 	if len(resolveList) == 1 && resolveList[0] == "" {
@@ -120,4 +124,39 @@ func handleQuestionMark(pattern string, patternIdx, bufferIdx *int, resolveList 
 		*resolveList = append(*resolveList, str+string(pattern[bufferEnd]))
 	}
 	*bufferIdx = bufferEnd + 2
+}
+
+func handleDot(pattern string, patternIdx, bufferIdx *int, resolveList *[]string) {
+	if pattern[*patternIdx-1] != '.' {
+		return
+	}
+	if *patternIdx+1 >= len(pattern)-1 {
+		return
+	}
+	bufferEnd := max(*bufferIdx, *patternIdx-1)
+	startValStr := pattern[*bufferIdx:bufferEnd]
+	startVal, errStart := strconv.ParseInt(startValStr, 10, 64)
+	if errStart != nil {
+		fmt.Printf("Error parsing range start value %s\n", startValStr)
+		*patternIdx = len(pattern)
+		*bufferIdx = *patternIdx
+		return
+	}
+	endValStr := pattern[*patternIdx+1:]
+	endVal, errEnd := strconv.ParseInt(endValStr, 10, 64)
+	if errEnd != nil {
+		fmt.Printf("Error parsing range end value %s\n", endValStr)
+		*patternIdx = len(pattern)
+		*bufferIdx = *patternIdx
+		return
+	}
+	var tmpBuildStr []string
+	for i := startVal; i < endVal; i++ {
+		for _, str := range *resolveList {
+			tmpBuildStr = append(tmpBuildStr, str+strconv.FormatInt(i, 10))
+		}
+	}
+	*resolveList = tmpBuildStr
+	*patternIdx = len(pattern)
+	*bufferIdx = *patternIdx
 }

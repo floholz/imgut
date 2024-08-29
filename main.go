@@ -41,11 +41,18 @@ func downloadCommand() *cli.Command {
 				Value:   "out",
 				Usage:   "output directory for downloaded images",
 			},
+			&cli.IntFlag{
+				Name:    "jobs",
+				Aliases: []string{"j"},
+				Value:   1,
+				Usage:   "number of parallel jobs",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			baseUrl := c.Args().First()
 			outDir := c.String("outDir")
-			return imgut.DownloadImages(baseUrl, outDir)
+			jobs := c.Int("jobs")
+			return imgut.DownloadImages(baseUrl, outDir, jobs)
 		},
 	}
 }
@@ -64,11 +71,18 @@ func fuzzCommand() *cli.Command {
 				Value:   "out/fuzz.json",
 				Usage:   "output path for fuzz file",
 			},
+			&cli.IntFlag{
+				Name:    "jobs",
+				Aliases: []string{"j"},
+				Value:   1,
+				Usage:   "number of parallel jobs",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			url := c.Args().First()
 			outPath := c.String("outPath")
-			return imgut.FuzzUrl(url, outPath)
+			jobs := c.Int("jobs")
+			return imgut.FuzzUrl(url, outPath, jobs)
 		},
 	}
 }
