@@ -11,6 +11,7 @@ var app *cli.App
 
 func main() {
 	app = &cli.App{
+		Version:     "24.8.29-1",
 		Name:        "imgut",
 		Description: "Perform url pattern shenanigans",
 		Usage:       "Image Utility Tool",
@@ -38,7 +39,7 @@ func downloadCommand() *cli.Command {
 			&cli.StringFlag{
 				Name:    "outDir",
 				Aliases: []string{"o"},
-				Value:   "out",
+				Value:   "./",
 				Usage:   "output directory for downloaded images",
 			},
 			&cli.IntFlag{
@@ -68,7 +69,7 @@ func fuzzCommand() *cli.Command {
 			&cli.StringFlag{
 				Name:    "outPath",
 				Aliases: []string{"o"},
-				Value:   "out/fuzz.json",
+				Value:   "./fuzz.json",
 				Usage:   "output path for fuzz file",
 			},
 			&cli.IntFlag{

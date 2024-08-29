@@ -8,6 +8,7 @@ imgut
 
 ```
 [--help|-h]
+[--version|-v]
 ```
 
 # DESCRIPTION
@@ -24,6 +25,8 @@ imgut [command] [arguments]
 
 **--help, -h**: show help
 
+**--version, -v**: print the version
+
 
 # COMMANDS
 
@@ -31,11 +34,15 @@ imgut [command] [arguments]
 
 >imgut download [arguments]
 
+**--jobs, -j**="": number of parallel jobs (default: 1)
+
 **--outDir, -o**="": output directory for downloaded images (default: "out")
 
 ## fuzz, f
 
 >imgut fuzz [arguments]
+
+**--jobs, -j**="": number of parallel jobs (default: 1)
 
 **--outPath, -o**="": output path for fuzz file (default: "out/fuzz.json")
 
